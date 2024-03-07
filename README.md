@@ -1,5 +1,8 @@
 # 305Project
 **NOTE**: I built this in intelliJ, and for reliability I would suggest us all to use it. You can get a free student account [here](https://www.jetbrains.com/shop/eform/students).
+
+- [**Shared Drive**](https://drive.google.com/drive/u/4/folders/17pPsI0dUodFR11Elx0rUWhlEYMHSzj_y)
+- Figma (havent made it yet.)
 ## Project Structure
 
 ### <ins>HelloApplication.java</ins>
