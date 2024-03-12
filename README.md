@@ -2,7 +2,7 @@
 **NOTE**: I built this in intelliJ, and for reliability I would suggest us all to use it. You can get a free student account [here](https://www.jetbrains.com/shop/eform/students).
 
 - [**Shared Drive**](https://drive.google.com/drive/u/4/folders/17pPsI0dUodFR11Elx0rUWhlEYMHSzj_y)
-- Figma: https://www.figma.com/file/fIxuX6Z3QKXZorZJdsyKDQ/C305-APP?type=design&node-id=1%3A21&mode=design&t=JnonTP9WM99wRnpF-1
+- [**Figma:**](https://www.figma.com/file/fIxuX6Z3QKXZorZJdsyKDQ/C305-APP?type=design&node-id=1%3A21&mode=design&t=JnonTP9WM99wRnpF-1)
 ## Project Structure
 
 ### <ins>HelloApplication.java</ins>
