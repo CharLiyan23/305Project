@@ -96,7 +96,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.example.cmpt305project/com.example.cmpt305project.HelloApplication</mainClass>
+              <mainClass>com.example.cmpt305project/com.example.cmpt305project.Main</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
