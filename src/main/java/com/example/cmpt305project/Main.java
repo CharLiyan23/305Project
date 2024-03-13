@@ -13,7 +13,7 @@ public class Main extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Hello!");
+        stage.setTitle("City of Edmonton Property Assessments");
         stage.setScene(scene);
         stage.show();
     }

@@ -8,39 +8,57 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="669.0" style="-fx-background-color: 6593ac;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="861.0" style="-fx-background-color: #6593ac;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <AnchorPane prefHeight="63.0" prefWidth="593.0" style="-fx-background-color: #0853c5; -fx-border-color: ffffff;" BorderPane.alignment="CENTER">
-         <children>
-            <Label contentDisplay="CENTER" layoutX="200.0" layoutY="23.0" prefHeight="17.0" prefWidth="600.0" text="City of Edmonton Property Assessments" AnchorPane.rightAnchor="-1.0" />
-         </children>
          <effect>
             <Bloom />
          </effect>
+         <children>
+            <HBox layoutX="1.0" prefHeight="70.0" prefWidth="669.0" style="-fx-alignment: center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label text="City of Edmonton Property Assessments" textFill="WHITE">
+                     <font>
+                        <Font name="Calibri" size="22.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="338.0" prefWidth="175.0" style="-fx-background-color: #232132;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="470.0" prefWidth="191.0" style="-fx-background-color: #232132;" BorderPane.alignment="CENTER">
          <effect>
             <Glow />
          </effect>
          <children>
-            <Button fx:id="findAddressButton" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Find By Address" />
-            <Button fx:id="findNeighbourhoodButton" layoutX="15.0" layoutY="115.0" mnemonicParsing="false" text="Find By Neighbourhood" />
-            <Button fx:id="findMapButton" layoutX="14.0" layoutY="194.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="144.0" text="Find on Map" />
+            <VBox layoutX="6.0" layoutY="-10.0" prefHeight="412.0" prefWidth="191.0" style="-fx-alignment: center; -fx-spacing: 35;" styleClass="anchorPane" stylesheets="@../../../cssResources/AnchorPaneStyle.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="findByAddressButton" mnemonicParsing="false" text="Find By Address" />
+                  <Button fx:id="findByNeighbourhoodButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Find By Neighbourhood" />
+                  <Button fx:id="findonMapButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" text="Find on Map" />
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="mainWindow" prefHeight="200.0" prefWidth="200.0" styleClass="body" stylesheets="@../../../cssResources/AnchorPaneStyle.css" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="343.0" fitWidth="482.0" layoutX="7.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../ImageResources/edmontonLandscape.jpg" />
-               </image>
-            </ImageView>
+            <VBox layoutY="25.0" prefHeight="534.0" prefWidth="804.0" style="-fx-alignment: center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+               <children>
+                  <ImageView fitHeight="471.0" fitWidth="627.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../ImageResources/edmontonLandscape.jpg" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </center>
