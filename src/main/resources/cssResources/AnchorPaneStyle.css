@@ -1,0 +1,23 @@
+.body{
+    -fx-background-image: url(/Users/badoo/Documents/c305/labs/305Project/src/main/resources/ImageResources/edmontonLandscape.jpg);
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.anchorPane Button{
+    -fx-background-color:  #0853c5;
+    -fx-text-fill: #FFFFFF;
+    -fx-pref-width: 149;
+    -fx-effect: dropshadow(three-pass-box, #AAAAAA, 5,0,0,2);
+    -fx-pref-height: 60;
+
+}
+
+.anchorPane Button:hover{
+    -fx-background-color: #14243d;
+}
+
+.anchorPane Button:pressed{
+    -fx-background-color:  #ffffff;
+}
