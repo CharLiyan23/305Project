@@ -10,4 +10,6 @@ module com.example.cmpt305project {
 
     opens com.example.cmpt305project to javafx.fxml;
     exports com.example.cmpt305project;
+    exports com.example.cmpt305project.Controllers;
+    opens com.example.cmpt305project.Controllers to javafx.fxml;
 }
