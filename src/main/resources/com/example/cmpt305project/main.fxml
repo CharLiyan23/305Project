@@ -12,7 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="861.0" style="-fx-background-color: #6593ac;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="894.0" style="-fx-background-color: #6593ac;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cmpt305project.Controllers.MainController">
    <top>
       <AnchorPane prefHeight="63.0" prefWidth="593.0" style="-fx-background-color: #0853c5; -fx-border-color: ffffff;" BorderPane.alignment="CENTER">
          <effect>
@@ -39,9 +40,9 @@
          <children>
             <VBox layoutX="6.0" layoutY="-10.0" prefHeight="412.0" prefWidth="191.0" style="-fx-alignment: center; -fx-spacing: 35;" styleClass="anchorPane" stylesheets="@../../../cssResources/AnchorPaneStyle.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button fx:id="findByAddressButton" mnemonicParsing="false" text="Find By Address" />
-                  <Button fx:id="findByNeighbourhoodButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Find By Neighbourhood" />
-                  <Button fx:id="findonMapButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" text="Find on Map" />
+                  <Button fx:id="findByAddressButton" mnemonicParsing="false" onAction="#setFindonAddressButton" text="Find By Address" />
+                  <Button fx:id="findByNeighbourhoodButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#setFindonNeighbourhoodButton" text="Find By Neighbourhood" />
+                  <Button fx:id="findonMapButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#setFindonMapButton" text="Find on Map" />
                </children>
             </VBox>
          </children>
