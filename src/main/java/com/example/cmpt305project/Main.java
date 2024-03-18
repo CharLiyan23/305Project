@@ -23,7 +23,8 @@ public class Main extends Application {
     }
 
     public PropertyAssessments loadAssessments() throws IOException {
-        return PropertyAssessmentLoader.loadAssessments(FILENAME);
+        return PropertyAssessmentLoader.loadAssessmentsCSV(FILENAME);
+
     }
     public static void main(String[] args) {
         launch();
