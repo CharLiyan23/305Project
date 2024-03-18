@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class PropertyAssessmentLoader {
 
-    public static PropertyAssessments loadAssessments(String fileName) throws IOException{
+    public static PropertyAssessments loadAssessmentsCSV(String fileName) throws IOException{
 
         PropertyAssessments assessments = new PropertyAssessments("Edmonton");
 
@@ -19,6 +19,7 @@ public class PropertyAssessmentLoader {
         try {
             String[][] data = readData(fileName);
             assessments = populatePropertyAssessments(data, "Edmonton");
+            System.out.println("File read successful");
 
         } catch (IOException e) {
             System.out.println("Failed to read " + fileName + ", error: "+ e);
