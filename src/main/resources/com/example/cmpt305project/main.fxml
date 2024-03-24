@@ -8,11 +8,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.Glow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -72,7 +71,7 @@
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="278.0">
                                  <children>
                                     <TextField layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="278.0" promptText="Search Neighbourhood..." />
-                                    <Button layoutX="14.0" layoutY="61.0" mnemonicParsing="false" text="Search" />
+                                    <Button fx:id="neighbourhoodSearchBttn" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" onAction="#testAction" text="Search" />
                                     <AnchorPane layoutX="-1.0" layoutY="141.0" prefHeight="299.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
                                        <children>
                                           <VBox layoutY="-1.0" prefHeight="332.0" prefWidth="434.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
@@ -116,15 +115,7 @@
    <center>
       <AnchorPane fx:id="mainWindow" prefHeight="200.0" prefWidth="200.0" styleClass="body" stylesheets="@../../../cssResources/AnchorPaneStyle.css" BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutY="-1.0" prefHeight="670.0" prefWidth="756.0" style="-fx-alignment: center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
-               <children>
-                  <ImageView fitHeight="446.0" fitWidth="656.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
-                     <image>
-                        <Image url="@../../../ImageResources/edmontonLandscape.jpg" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
+            <StackPane fx:id="stackPaneMap" layoutY="-1.0" prefHeight="672.0" prefWidth="756.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0" />
          </children>
       </AnchorPane>
    </center>
