@@ -7,11 +7,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Scanner;
+import java.util.List;
 
-public class PropertyAssessmentLoader {
+public class CsvPropertyAssessmentDAO implements PropertyAssessmentDAO{
 
-    public static PropertyAssessments loadAssessmentsCSV(String fileName) throws IOException{
+    @Override
+    public PropertyAssessment getByAccountNumber() {
+        return null;
+    }
+
+    @Override
+    public List<PropertyAssessment> getByNeighbourhod() {
+        return null;
+    }
+
+    public static PropertyAssessments loadAssessmentsCSV(String fileName) {
 
         PropertyAssessments assessments = new PropertyAssessments("Edmonton");
 
@@ -221,5 +231,4 @@ public class PropertyAssessmentLoader {
         // Remove empty rows in the array and return it
         return Arrays.copyOf(data, index);
     }
-
 }

@@ -7,6 +7,9 @@ module com.example.cmpt305project {
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
     requires eu.hansolo.tilesfx;
+    requires com.esri.arcgisruntime;
+    requires javafx.graphics;
+    requires org.slf4j.nop;
 
     opens com.example.cmpt305project to javafx.fxml;
     exports com.example.cmpt305project;
