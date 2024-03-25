@@ -2,18 +2,20 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.Glow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="894.0" style="-fx-background-color: #6593ac;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cmpt305project.Controllers.MainController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="732.0" minWidth="1189.0" prefHeight="732.0" prefWidth="1189.0" style="-fx-background-color: #6593ac; -fx-min-width: 1189; -fx-min-height: 732;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cmpt305project.Controllers.MainController">
    <top>
       <AnchorPane prefHeight="63.0" prefWidth="593.0" style="-fx-background-color: #0853c5; -fx-border-color: ffffff;" BorderPane.alignment="CENTER">
          <effect>
@@ -33,16 +35,78 @@
       </AnchorPane>
    </top>
    <left>
-      <AnchorPane prefHeight="470.0" prefWidth="191.0" style="-fx-background-color: #232132;" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="669.0" prefWidth="433.0" style="-fx-background-color: #232132;" BorderPane.alignment="CENTER">
          <effect>
             <Glow />
          </effect>
          <children>
-            <VBox layoutX="6.0" layoutY="-10.0" prefHeight="412.0" prefWidth="191.0" style="-fx-alignment: center; -fx-spacing: 35;" styleClass="anchorPane" stylesheets="@../../../cssResources/AnchorPaneStyle.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="0.0">
+            <VBox layoutY="-10.0" prefHeight="629.0" prefWidth="278.0" style="-fx-spacing: 35;" styleClass="anchorPane" stylesheets="@../../../cssResources/AnchorPaneStyle.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button fx:id="findByAddressButton" mnemonicParsing="false" onAction="#setFindonAddressButton" text="Find By Address" />
-                  <Button fx:id="findByNeighbourhoodButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#setFindonNeighbourhoodButton" text="Find By Neighbourhood" />
-                  <Button fx:id="findonMapButton" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#setFindonMapButton" text="Find on Map" />
+                  <TabPane accessibleRole="BUTTON" depthTest="ENABLE" prefHeight="501.0" prefWidth="278.0" stylesheets="@../../../cssResources/TabPane.css" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Find By Address">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <TextField layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="278.0" promptText="Search Address..." />
+                                    <Button layoutX="14.0" layoutY="61.0" mnemonicParsing="false" text="Search" />
+                                    <AnchorPane layoutY="169.0" prefHeight="300.0" prefWidth="431.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="169.0">
+                                       <children>
+                                          <VBox prefHeight="301.0" prefWidth="432.0" styleClass="anchorPane" stylesheets="@../../../cssResources/AnchorPaneStyle.css">
+                                             <children>
+                                                <Label text="Address:" textFill="WHITE" />
+                                                <Label layoutX="10.0" layoutY="10.0" text="Assessment Value:" textFill="WHITE" />
+                                                <Label layoutX="10.0" layoutY="27.0" text="Garage:" textFill="WHITE" />
+                                                <Label layoutX="10.0" layoutY="44.0" text="Assessment Class:" textFill="WHITE" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab text="Find By Neighbourhood">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="278.0">
+                                 <children>
+                                    <TextField layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="278.0" promptText="Search Neighbourhood..." />
+                                    <Button fx:id="neighbourhoodSearchBttn" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" onAction="#testAction" text="Search" />
+                                    <AnchorPane layoutX="-1.0" layoutY="141.0" prefHeight="299.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
+                                       <children>
+                                          <VBox layoutY="-1.0" prefHeight="332.0" prefWidth="434.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
+                                             <children>
+                                                <Label text="Table" textFill="WHITE" />
+                                                <Label layoutX="10.0" layoutY="27.0" text="When the user searches a neighbourhood (stats)" textFill="WHITE" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                        <Tab text="Find on Map">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox layoutX="-2.0" layoutY="-1.0" prefHeight="471.0" prefWidth="434.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label text="Select Range" textFill="WHITE" />
+                                          <Slider stylesheets="@../../../cssResources/AnchorPaneStyle.css" />
+                                          <AnchorPane prefHeight="274.0" prefWidth="432.0" style="-fx-background-color: #00376a;">
+                                             <children>
+                                                <Label layoutX="14.0" layoutY="14.0" text="Table for property stats when user clicks on map" textFill="WHITE" />
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
                </children>
             </VBox>
          </children>
@@ -51,15 +115,7 @@
    <center>
       <AnchorPane fx:id="mainWindow" prefHeight="200.0" prefWidth="200.0" styleClass="body" stylesheets="@../../../cssResources/AnchorPaneStyle.css" BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutY="25.0" prefHeight="534.0" prefWidth="804.0" style="-fx-alignment: center;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-               <children>
-                  <ImageView fitHeight="471.0" fitWidth="627.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../ImageResources/edmontonLandscape.jpg" />
-                     </image>
-                  </ImageView>
-               </children>
-            </VBox>
+            <StackPane fx:id="stackPaneMap" layoutY="-1.0" prefHeight="672.0" prefWidth="756.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0" />
          </children>
       </AnchorPane>
    </center>
