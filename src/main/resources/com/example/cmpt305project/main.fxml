@@ -92,11 +92,11 @@
                                  <children>
                                     <VBox layoutX="-2.0" layoutY="-1.0" prefHeight="471.0" prefWidth="434.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label text="Select Range" textFill="WHITE" />
-                                          <Slider stylesheets="@../../../cssResources/AnchorPaneStyle.css" />
+                                          <Label style="-fx-label-padding: 20;" text="Select Range (in km)" textFill="WHITE" />
+                                          <Slider fx:id="mapRangeSlider" blockIncrement="2.0" majorTickUnit="5.0" max="50.0" prefHeight="30.0" prefWidth="339.0" showTickLabels="true" showTickMarks="true" style="-fx-padding: 20;" stylesheets="@../../../cssResources/AnchorPaneStyle.css" />
                                           <AnchorPane prefHeight="274.0" prefWidth="432.0" style="-fx-background-color: #00376a;">
                                              <children>
-                                                <Label layoutX="14.0" layoutY="14.0" text="Table for property stats when user clicks on map" textFill="WHITE" />
+                                                <Label layoutX="8.0" layoutY="14.0" text="Table for property stats when user clicks on map" textFill="WHITE" />
                                              </children>
                                           </AnchorPane>
                                        </children>

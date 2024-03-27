@@ -9,6 +9,7 @@ import com.esri.arcgisruntime.mapping.view.Graphic;
 import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
+import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
 import com.esri.arcgisruntime.symbology.Symbol;
 import com.example.cmpt305project.HelperClasses.CPoint;
 import com.example.cmpt305project.HelperClasses.SceneSwitch;
@@ -16,11 +17,14 @@ import com.example.cmpt305project.PropertyAssessmentHandler.CsvPropertyAssessmen
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.Neighbourhood;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessment;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessments;
+import javafx.beans.Observable;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -30,12 +34,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.example.cmpt305project.HelperClasses.ConvexHull.convexHull;
+import static eu.hansolo.tilesfx.tools.SunMoonCalculator.EARTH_RADIUS;
 
 public class MainController implements Initializable {
 
@@ -44,6 +50,8 @@ public class MainController implements Initializable {
 
     @FXML
     private TextField searchNeighbourhoodTextField;
+    @FXML
+    private Slider mapRangeSlider;
 
     private final String FILENAME = "Property_Assessment_Data__Current_Calendar_Year__20240111.csv";
 
@@ -70,7 +78,7 @@ public class MainController implements Initializable {
     }
 
     /*
-     * Function to extract string information as specified in func; expected to be used to collect anything
+     * Function to extract information as specified in func; expected to be used to collect anything
      * */
     List<Object> extract (PropertyAssessments assessments, Function<PropertyAssessment, Object> func){
         return assessments.getAssessments().values().parallelStream()
@@ -100,13 +108,41 @@ public class MainController implements Initializable {
         Polygon polygon = new Polygon(pointCollection);
 
         // Create a simple fill symbol for the polygon
-        SimpleFillSymbol polygonFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("#FF4500"), null);
+        SimpleFillSymbol polygonFillSymbol = new SimpleFillSymbol(SimpleFillSymbol.Style.SOLID, Color.web("#FF4500", .4), new SimpleLineSymbol(SimpleLineSymbol.Style.SOLID, Color.BLUE, 2));
 
         Graphic polygonGraphic = new Graphic(polygon, polygonFillSymbol);
 
         // Create a graphic for the polygon and add it to the graphics overlay
         graphicsOverlay.getGraphics().add(polygonGraphic);
         return polygonGraphic;
+    }
+
+    // Method to calculate the distance between two points using the Haversine formula
+    public static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+        // Convert latitude and longitude from degrees to radians
+        lat1 = Math.toRadians(lat1);
+        lon1 = Math.toRadians(lon1);
+        lat2 = Math.toRadians(lat2);
+        lon2 = Math.toRadians(lon2);
+
+        // Calculate the differences between the two points' latitudes and longitudes
+        double dLat = lat2 - lat1;
+        double dLon = lon2 - lon1;
+
+        // Apply the Haversine formula
+        double a = Math.pow(Math.sin(dLat / 2), 2) +
+                Math.cos(lat1) * Math.cos(lat2) *
+                        Math.pow(Math.sin(dLon / 2), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return EARTH_RADIUS * c; // Distance between the two points in kilometers
+    }
+    private List<Point> getPoints(Point startPoint, Double range){
+        List<Point> retPoints = new ArrayList<>();
+        List<PropertyAssessment> filteredAssessments = assessments.getAssessments().values().parallelStream()
+                .filter(propertyAssessment -> (calculateDistance( propertyAssessment.getLocation().getLatitude(), propertyAssessment.getLocation().getLongitude(), startPoint.getX(), startPoint.getY()) < range)).toList();
+
+        return retPoints;
     }
 
     @Override
@@ -126,6 +162,15 @@ public class MainController implements Initializable {
 
         // Adding the MapView to the StackPane
         stackPaneMap.getChildren().add(mapView);
+
+        //configure slider
+        mapRangeSlider.valueProperty().addListener((ObservableValue<? extends Number > num, Number oldVal, Number newVal) -> {
+            Float value = Float.valueOf(String.format("%.1f", newVal));
+
+
+            //action to change size of map range here
+        });
+
 //        stage.setOnCloseRequest(event -> mapView.dispose());
     }
 
@@ -141,6 +186,8 @@ public class MainController implements Initializable {
     @FXML
     public void drawNeighbourhood(){
         String neighbourhodName = searchNeighbourhoodTextField.getText();
+        // Remove all graphics from the graphics overlay
+        graphicsOverlay.getGraphics().clear();
         if (true){ //check if neighbourhoood exists
             //get points
 
