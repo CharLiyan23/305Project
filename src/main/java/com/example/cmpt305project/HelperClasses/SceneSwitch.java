@@ -5,13 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
-
 public class SceneSwitch {
 
     public SceneSwitch(String fxml, ActionEvent event) throws IOException {
@@ -34,7 +30,5 @@ public class SceneSwitch {
         stage.setX(previousX);
         stage.setY(previousY);
         stage.show();
-
-
     }
 }

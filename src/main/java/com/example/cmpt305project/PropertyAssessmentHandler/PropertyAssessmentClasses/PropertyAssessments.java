@@ -3,6 +3,7 @@ package com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentC
 import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.function.Predicate;
 
 import static java.util.Collections.sort;
 
@@ -148,6 +149,18 @@ public class PropertyAssessments{
             return Objects.equals(other.getName(), cityName);
         }
         return false;
+    }
+    public PropertyAssessments filterAssessments(Predicate <PropertyAssessment> pred){
+        PropertyAssessments retAssessments = new PropertyAssessments("Filtered");
+        PropertyAssessment temp;
+        Map<Integer, PropertyAssessment> allAssessments = assessments;
+        for(int index: allAssessments.keySet()){
+            temp = allAssessments.get(index);
+            if(pred.test(temp)){
+                retAssessments.addAssessment(temp);
+            }
+        }
+        return new PropertyAssessments(retAssessments);
     }
 
     public Map<Integer, PropertyAssessment> getAssessments() {
