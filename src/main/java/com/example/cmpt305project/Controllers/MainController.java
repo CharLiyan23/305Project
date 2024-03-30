@@ -10,24 +10,19 @@ import com.esri.arcgisruntime.mapping.view.GraphicsOverlay;
 import com.esri.arcgisruntime.mapping.view.MapView;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.esri.arcgisruntime.symbology.Symbol;
 import com.example.cmpt305project.HelperClasses.CPoint;
-import com.example.cmpt305project.HelperClasses.SceneSwitch;
+import com.example.cmpt305project.HelperClasses.FxUtilTest;
 import com.example.cmpt305project.PropertyAssessmentHandler.CsvPropertyAssessmentDAO;
-import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.Neighbourhood;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessment;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessments;
-import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -50,6 +45,8 @@ public class MainController implements Initializable {
 
     @FXML
     private TextField searchNeighbourhoodTextField;
+    @FXML
+    private ComboBox<String> searchNeighbourhoodComboBox;
     @FXML
     private Slider mapRangeSlider;
 
@@ -151,9 +148,23 @@ public class MainController implements Initializable {
         String yourApiKey = "AAPK4a2ea8e3b119411d8e6b4541a5da4a0fRve45bsPCDMyOfiwCmfpepUybznK3-nbE2cQmIyOVa_aOTQZoO3UlMzocbi4xI1g";
         ArcGISRuntimeEnvironment.setApiKey(yourApiKey);
 
+        // Initialize ComboBox
+        searchNeighbourhoodComboBox.setEditable(true);
 
+        // Add values to the ComboBox
+        ObservableList<String> items = FXCollections.observableArrayList(
+                "Apples",
+                "Acorns",
+                "Nectarines",
+                "Pizza",
+                "downtown"
+        );
+        searchNeighbourhoodComboBox.setItems(items);
 
-
+        // Use auto-completion for combobox
+        FxUtilTest.autoCompleteComboBoxPlus(searchNeighbourhoodComboBox, (typedText, item) -> {
+            return item.toLowerCase().startsWith(typedText.toLowerCase());
+        });
 
         // Setting the map to the MapView
         mapView.setMap(map);
@@ -185,7 +196,8 @@ public class MainController implements Initializable {
     }
     @FXML
     public void drawNeighbourhood(){
-        String neighbourhodName = searchNeighbourhoodTextField.getText();
+        String neighbourhodName = FxUtilTest.getComboBoxValue(searchNeighbourhoodComboBox);
+        //TextFields.bindAutoCompletion(searchNeighbourhoodComboBox.getEditor(), searchNeighbourhoodComboBox.getItems());
         // Remove all graphics from the graphics overlay
         graphicsOverlay.getGraphics().clear();
         if (true){ //check if neighbourhoood exists
