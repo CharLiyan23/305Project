@@ -15,26 +15,26 @@ import com.example.cmpt305project.HelperClasses.FxUtilTest;
 import com.example.cmpt305project.PropertyAssessmentHandler.CsvPropertyAssessmentDAO;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessment;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessments;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -52,6 +52,14 @@ public class MainController implements Initializable {
     private ComboBox<String> searchNeighbourhoodComboBox;
     @FXML
     private Slider mapRangeSlider;
+    @FXML
+    private GridPane gridPane;
+
+    @FXML
+    private Label neighbourhoodValueLabel;
+
+    @FXML
+    private Label propertiesValueLabel;
 
     private final String FILENAME = "Property_Assessment_Data__Current_Calendar_Year__20240111.csv";
 
@@ -102,7 +110,7 @@ public class MainController implements Initializable {
         return cPoints.parallelStream().map(cPoint -> new Point(cPoint.getY(),cPoint.getX())).toList();
     }
 
-    public Graphic drawonMap(List<Point> polygonPoints){
+    public Graphic drawonMap(List<Point> polygonPoints) {
         PointCollection pointCollection = new PointCollection(SpatialReferences.getWgs84());
         pointCollection.addAll(polygonPoints);
         Polygon polygon = new Polygon(pointCollection);
@@ -153,7 +161,6 @@ public class MainController implements Initializable {
 
         // Initialize ComboBox
         searchNeighbourhoodComboBox.setEditable(true);
-
         List<String> neighborhoodNamesList = assessments.extractNeighborhoodNames();
 
         // Convert List<String> to ObservableList<String>
@@ -201,6 +208,12 @@ public class MainController implements Initializable {
     private PropertyAssessments loadAssessments(String fileName) throws IOException {
         return CsvPropertyAssessmentDAO.loadAssessmentsCSV(fileName);
     }
+    public PropertyAssessments filterAssessmentsByNeighbourhood(String neighbourhoodName) {
+        Predicate<PropertyAssessment> neighbourhoodPredicate = assessment ->
+                assessment.getNeighbourhoodData().getNeighbourhoodname().equalsIgnoreCase(neighbourhoodName);
+
+        return assessments.filterAssessments(neighbourhoodPredicate);
+    }
 
     @FXML
     public void testAction() throws IOException{
@@ -209,15 +222,24 @@ public class MainController implements Initializable {
     }
     @FXML
     public void drawNeighbourhood(){
-        String neighbourhodName = FxUtilTest.getComboBoxValue(searchNeighbourhoodComboBox);
+        String neighbourhoodName = FxUtilTest.getComboBoxValue(searchNeighbourhoodComboBox);
+        System.out.println("NBHD NAME: " + neighbourhoodName);
+        // Filter PropertyAssessments by the selected neighbourhood name
+        PropertyAssessments filteredAssessments = filterAssessmentsByNeighbourhood(neighbourhoodName);
+        System.out.println("AVERAGE: " + filteredAssessments.findMedian());
+
+        neighbourhoodValueLabel.setText(neighbourhoodName);
+        propertiesValueLabel.setText(String.valueOf(filteredAssessments.findMedian()));
+
+
         //TextFields.bindAutoCompletion(searchNeighbourhoodComboBox.getEditor(), searchNeighbourhoodComboBox.getItems());
         // Remove all graphics from the graphics overlay
         graphicsOverlay.getGraphics().clear();
-        if (true){ //check if neighbourhoood exists
+        if (true){ //check if neighbourhood exists
             //get points
 
             //draw on graphic overlay
-            Graphic item = drawonMap(createPoints(convexPoints(neighbourhodName)));
+            Graphic item = drawonMap(createPoints(convexPoints(neighbourhoodName)));
         }
 
     }
