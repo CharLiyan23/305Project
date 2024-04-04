@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -18,6 +19,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+
+    //hard coded property assessment dataset
     private final String FILENAME = "Property_Assessment_Data__Current_Calendar_Year__20240111.csv";
 
     @Override
@@ -28,6 +31,9 @@ public class Main extends Application {
         stage.setTitle("City of Edmonton Property Assessments");
         stage.setScene(scene);
         stage.show();
+        Image icon = new Image("ImageResources/vecteezy_building-logo-icon-design-vector_15567358_121/vecteezy_building-logo-icon-design-vector_15567358.jpg");
+
+        stage.getIcons().add(icon);
         //load assessments from CSV file
         PropertyAssessments assessments = loadAssessments();
 
