@@ -1,16 +1,16 @@
 .grid-pane {
-    -fx-grid-lines-visible: true;
+    -fx-grid-lines-visible: false;
     -fx-border-width: 1px;
-    -fx-background-color: white; /* Fill grid background with white */
+    -fx-hgap: 10px; /* Set the vertical gap between rows */
 }
 /* Target all text nodes */
 .text {
     -fx-font-size: 16px; /* Adjust the font size as needed */
-    -fx-text-fill: black; /* Change text color to white */
+    -fx-text-fill: white; /* Change text color to white */
 }
 
 /* Alternatively, you can target specific nodes or classes */
 .label {
     -fx-font-size: 16px;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }

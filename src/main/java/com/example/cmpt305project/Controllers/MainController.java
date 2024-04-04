@@ -15,15 +15,12 @@ import com.example.cmpt305project.HelperClasses.FxUtilTest;
 import com.example.cmpt305project.PropertyAssessmentHandler.CsvPropertyAssessmentDAO;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessment;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessments;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -34,6 +31,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -56,10 +54,17 @@ public class MainController implements Initializable {
     private GridPane gridPane;
 
     @FXML
-    private Label neighbourhoodValueLabel;
-
+    private Label neighbourhoodNameLabel;
     @FXML
-    private Label propertiesValueLabel;
+    private Label neighbourhoodMinLabel;
+    @FXML
+    private Label neighbourhoodMaxLabel;
+    @FXML
+    private Label neighbourhoodAverageLabel;
+    @FXML
+    private Label neighbourhoodRangeLabel;
+    @FXML
+    private Label propertyCountLabel;
 
     private final String FILENAME = "Property_Assessment_Data__Current_Calendar_Year__20240111.csv";
 
@@ -216,20 +221,20 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    public void testAction() throws IOException{
-        stackPaneMap.setStyle("-fx-background-color: #000000");
-
-    }
-    @FXML
     public void drawNeighbourhood(){
         String neighbourhoodName = FxUtilTest.getComboBoxValue(searchNeighbourhoodComboBox);
-        System.out.println("NBHD NAME: " + neighbourhoodName);
         // Filter PropertyAssessments by the selected neighbourhood name
         PropertyAssessments filteredAssessments = filterAssessmentsByNeighbourhood(neighbourhoodName);
-        System.out.println("AVERAGE: " + filteredAssessments.findMedian());
+        Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+        Currency currentCurrency = Currency.getInstance(currentLocale);
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
 
-        neighbourhoodValueLabel.setText(neighbourhoodName);
-        propertiesValueLabel.setText(String.valueOf(filteredAssessments.findMedian()));
+        neighbourhoodNameLabel.setText(neighbourhoodName);
+        propertyCountLabel.setText(String.valueOf(filteredAssessments.getAssessments().size()));
+        neighbourhoodMinLabel.setText(currencyFormatter.format(filteredAssessments.findMin()));
+        neighbourhoodMaxLabel.setText(currencyFormatter.format(filteredAssessments.findMax()));
+        neighbourhoodAverageLabel.setText(currencyFormatter.format(filteredAssessments.findMean()));
+        neighbourhoodRangeLabel.setText(currencyFormatter.format(filteredAssessments.findMax() - filteredAssessments.findMin()));
 
 
         //TextFields.bindAutoCompletion(searchNeighbourhoodComboBox.getEditor(), searchNeighbourhoodComboBox.getItems());

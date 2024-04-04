@@ -88,12 +88,20 @@
                                                             stylesheets="@../../../cssResources/styles.css">
                                                      <GridPane fx:id="gridPane" styleClass="grid-pane">
                                                          <!-- Headers -->
-                                                         <Label text="Neighbourhood" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                                                         <Label text="Properties" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                                         <Label text="Neighbourhood:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                                         <Label text="Property count:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                                         <Label text="Minimum Value:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                                         <Label text="Maximum Value:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                                         <Label text="Average Value:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                                         <Label text="Range:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
 
                                                          <!-- Values -->
-                                                         <Label fx:id="neighbourhoodValueLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                                                         <Label fx:id="propertiesValueLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                                         <Label fx:id="neighbourhoodNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                                         <Label fx:id="propertyCountLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                                         <Label fx:id="neighbourhoodMinLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                                         <Label fx:id="neighbourhoodMaxLabel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                                         <Label fx:id="neighbourhoodAverageLabel" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                                         <Label fx:id="neighbourhoodRangeLabel" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
                                                      </GridPane>
                                                  </StackPane>
                                              </children>
