@@ -26,9 +26,8 @@ import org.w3c.dom.events.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.text.NumberFormat;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -48,11 +47,14 @@ public class MainController implements Initializable {
     private TabPane menuTabPane;
     @FXML
     private Slider mapRangeSlider;
+    @FXML
+    private Label findMapDescirptionDisplay;
 
     private Point lastMouseClickPoint;
+    private String defaultfindMapDescirptionDisplayText = "Table for property stats when user clicks on map";
 
     private final String FILENAME = "Property_Assessment_Data__Current_Calendar_Year__20240111.csv";
-    private List<PropertyAssessment> rangedAssessments;
+    private PropertyAssessments rangedAssessments;
 
     PropertyAssessments assessments = loadAssessments(FILENAME);
 
@@ -162,7 +164,7 @@ public class MainController implements Initializable {
         mapView.setViewpoint(new Viewpoint(53.5461, -113.4937, 72223.819286));
 
         // Add mouse click event handler
-        mapView.setOnMouseClicked(e -> handleMapClick(e));
+        mapView.setOnMouseClicked(this::handleMapClick);
 
         // add overlays to mapview
         mapView.getGraphicsOverlays().add(graphicsOverlayAddressPane);
@@ -192,14 +194,37 @@ public class MainController implements Initializable {
         //configure slider
         mapRangeSlider.valueProperty().addListener((ObservableValue<? extends Number > num, Number oldVal, Number newVal) -> {
             Float value = Float.valueOf(String.format("%.1f", newVal));
+            //add conditoin here for if mouseclick != null
             drawRange(lastMouseClickPoint , value);
             rangedAssessments = assessmentsInRange(value / Float.parseFloat("3280.84"));
-            System.out.print("\nSize = " + rangedAssessments.size());
+            System.out.print("\nSize = " + rangedAssessments.getAssessments().size());
+            changefindMapDescirptionDisplay(rangedAssessments);
             //action to change size of map range here
         });
 
 
 //        stage.setOnCloseRequest(event -> mapView.dispose());
+    }
+    private void changefindMapDescirptionDisplay(PropertyAssessments soughtAssessments){
+        int min = soughtAssessments.findMin();
+        int max = soughtAssessments.findMax();
+        int range = max - min;
+        int mean = soughtAssessments.findMean();
+        int median = soughtAssessments.findMedian();
+
+        Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+        Currency currentCurrency = Currency.getInstance(currentLocale);
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
+
+        String retString = "";
+        retString += String.format("Statistics of Selected Range\nn = %d", soughtAssessments.getAssessments().size());
+        retString += "\nmin = "+ currencyFormatter.format(min);
+        retString += "\nmax = " + currencyFormatter.format(max);
+        retString += "\nrange = " + currencyFormatter.format(range);
+        retString += "\nmean = " + currencyFormatter.format(mean);
+        retString += "\nmedian = " +  currencyFormatter.format(median);
+
+        findMapDescirptionDisplay.setText(retString);
     }
 
     private void handleMapClick(javafx.scene.input.MouseEvent event) {
@@ -214,13 +239,22 @@ public class MainController implements Initializable {
             drawRange(lastMouseClickPoint , range);
             rangedAssessments = assessmentsInRange(range / Float.parseFloat("3280.84"));
 
-            System.out.print("\nSize = " + rangedAssessments.size());
+            changefindMapDescirptionDisplay(rangedAssessments);
+
+            System.out.print("\nSize = " + rangedAssessments.getAssessments().size());
         }
     }
 
-    private List<PropertyAssessment> assessmentsInRange(Float range){
+    private PropertyAssessments assessmentsInRange(Float range){
 
-        return search(assessments, propertyAssessment -> (range >= calculateDistance(lastMouseClickPoint.getY(), lastMouseClickPoint.getX(), propertyAssessment.getLocation().getLatitude(), propertyAssessment.getLocation().getLongitude())));
+        return putAssessmentsinObject(search(assessments, propertyAssessment -> (range >= calculateDistance(lastMouseClickPoint.getY(), lastMouseClickPoint.getX(), propertyAssessment.getLocation().getLatitude(), propertyAssessment.getLocation().getLongitude()))));
+    }
+    private PropertyAssessments putAssessmentsinObject(List<PropertyAssessment> assessments){
+        PropertyAssessments retAssessments  = new PropertyAssessments("sought assessments");
+        for (PropertyAssessment assessment: assessments){
+            retAssessments.addAssessment(assessment);
+        }
+        return retAssessments;
     }
 
     private void handleTabSelection(GraphicsOverlay graphicsOverlay) {

@@ -96,7 +96,10 @@
                                           <Slider fx:id="mapRangeSlider" blockIncrement="50.0" majorTickUnit="100.0" max="1000.0" min="100.0" minorTickCount="5" prefHeight="30.0" prefWidth="339.0" showTickLabels="true" showTickMarks="true" style="-fx-padding: 20;" stylesheets="@../../../cssResources/AnchorPaneStyle.css" />
                                           <AnchorPane prefHeight="274.0" prefWidth="432.0" style="-fx-background-color: #00376a;">
                                              <children>
-                                                <Label layoutX="8.0" layoutY="14.0" text="Table for property stats when user clicks on map" textFill="WHITE" />
+                                                <Label fx:id="findMapDescirptionDisplay" layoutX="8.0" layoutY="14.0" text="Table for property stats when user clicks on map" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font></Label>
                                              </children>
                                           </AnchorPane>
                                        </children>

@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -30,6 +31,9 @@ public class Main extends Application {
         stage.setTitle("City of Edmonton Property Assessments");
         stage.setScene(scene);
         stage.show();
+        Image icon = new Image("ImageResources/vecteezy_building-logo-icon-design-vector_15567358_121/vecteezy_building-logo-icon-design-vector_15567358.jpg");
+
+        stage.getIcons().add(icon);
         //load assessments from CSV file
         PropertyAssessments assessments = loadAssessments();
 
