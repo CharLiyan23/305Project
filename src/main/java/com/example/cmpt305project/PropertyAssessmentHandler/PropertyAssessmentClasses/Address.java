@@ -26,6 +26,7 @@ public class Address{
     public Address(){
 
     }
+
     @Override
     public boolean equals (Object anObject){
         if(anObject instanceof Address){

@@ -22,6 +22,7 @@ public class FxUtilTest {
                 comboBox.getEditor().setText(null);
             }
         });
+
         comboBox.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 
             private boolean moveCaretToPos = false;
