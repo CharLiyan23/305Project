@@ -23,6 +23,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.ComboBoxListViewSkin;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -33,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.text.NumberFormat;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import com.example.cmpt305project.HelperClasses.AddressTable;
@@ -66,7 +72,24 @@ public class MainController implements Initializable {
     @FXML
     private ComboBox<String> AddressTextField;
     @FXML
+    private ComboBox<String> searchNeighbourhoodComboBox;
+    @FXML
     private Slider mapRangeSlider;
+    @FXML
+    private GridPane gridPane;
+
+    @FXML
+    private Label neighbourhoodNameLabel;
+    @FXML
+    private Label neighbourhoodMinLabel;
+    @FXML
+    private Label neighbourhoodMaxLabel;
+    @FXML
+    private Label neighbourhoodAverageLabel;
+    @FXML
+    private Label neighbourhoodRangeLabel;
+    @FXML
+    private Label propertyCountLabel;
 
     private final String FILENAME = "Property_Assessment_Data__Current_Calendar_Year__20240111.csv";
 
@@ -117,7 +140,7 @@ public class MainController implements Initializable {
         return cPoints.parallelStream().map(cPoint -> new Point(cPoint.getY(),cPoint.getX())).toList();
     }
 
-    public Graphic drawonMap(List<Point> polygonPoints){
+    public Graphic drawonMap(List<Point> polygonPoints) {
         PointCollection pointCollection = new PointCollection(SpatialReferences.getWgs84());
         pointCollection.addAll(polygonPoints);
         Polygon polygon = new Polygon(pointCollection);
@@ -183,9 +206,32 @@ public class MainController implements Initializable {
         String yourApiKey = "AAPK4a2ea8e3b119411d8e6b4541a5da4a0fRve45bsPCDMyOfiwCmfpepUybznK3-nbE2cQmIyOVa_aOTQZoO3UlMzocbi4xI1g";
         ArcGISRuntimeEnvironment.setApiKey(yourApiKey);
 
+        // Initialize ComboBox
+        searchNeighbourhoodComboBox.setEditable(true);
+        List<String> neighborhoodNamesList = assessments.extractNeighborhoodNames();
 
+        // Convert List<String> to ObservableList<String>
+        ObservableList<String> neighborhoodNamesObservableList = FXCollections.observableArrayList(neighborhoodNamesList);
+        searchNeighbourhoodComboBox.setItems(neighborhoodNamesObservableList);
 
+        // Use auto-completion for combobox
+        FxUtilTest.autoCompleteComboBoxPlus(searchNeighbourhoodComboBox, (typedText, item) -> {
+            return item.toLowerCase().startsWith(typedText.toLowerCase());
+        });
 
+        // Prevents spacebar from autofilling
+        ComboBoxListViewSkin<?> comboBoxListViewSkin = new ComboBoxListViewSkin<>(searchNeighbourhoodComboBox);
+        searchNeighbourhoodComboBox.getEditor().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                event.consume();
+            }
+        });
+        comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                event.consume();
+            }
+        });
+        searchNeighbourhoodComboBox.setSkin(comboBoxListViewSkin);
 
         // ------------------------------------------------------------------
         // This is where i create the autocomplete feature
@@ -247,22 +293,38 @@ public class MainController implements Initializable {
     private PropertyAssessments loadAssessments(String fileName) throws IOException {
         return CsvPropertyAssessmentDAO.loadAssessmentsCSV(fileName);
     }
+    public PropertyAssessments filterAssessmentsByNeighbourhood(String neighbourhoodName) {
+        Predicate<PropertyAssessment> neighbourhoodPredicate = assessment ->
+                assessment.getNeighbourhoodData().getNeighbourhoodname().equalsIgnoreCase(neighbourhoodName);
 
-    @FXML
-    public void testAction() throws IOException{
-        stackPaneMap.setStyle("-fx-background-color: #000000");
-
+        return assessments.filterAssessments(neighbourhoodPredicate);
     }
+
     @FXML
     public void drawNeighbourhood(){
-        String neighbourhodName = searchNeighbourhoodTextField.getText();
+        String neighbourhoodName = FxUtilTest.getComboBoxValue(searchNeighbourhoodComboBox);
+        // Filter PropertyAssessments by the selected neighbourhood name
+        PropertyAssessments filteredAssessments = filterAssessmentsByNeighbourhood(neighbourhoodName);
+        Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+        Currency currentCurrency = Currency.getInstance(currentLocale);
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
+
+        neighbourhoodNameLabel.setText(neighbourhoodName);
+        propertyCountLabel.setText(String.valueOf(filteredAssessments.getAssessments().size()));
+        neighbourhoodMinLabel.setText(currencyFormatter.format(filteredAssessments.findMin()));
+        neighbourhoodMaxLabel.setText(currencyFormatter.format(filteredAssessments.findMax()));
+        neighbourhoodAverageLabel.setText(currencyFormatter.format(filteredAssessments.findMean()));
+        neighbourhoodRangeLabel.setText(currencyFormatter.format(filteredAssessments.findMax() - filteredAssessments.findMin()));
+
+
+        //TextFields.bindAutoCompletion(searchNeighbourhoodComboBox.getEditor(), searchNeighbourhoodComboBox.getItems());
         // Remove all graphics from the graphics overlay
         graphicsOverlay.getGraphics().clear();
-        if (true){ //check if neighbourhoood exists
+        if (true){ //check if neighbourhood exists
             //get points
 
             //draw on graphic overlay
-            Graphic item = drawonMap(createPoints(convexPoints(neighbourhodName)));
+            Graphic item = drawonMap(createPoints(convexPoints(neighbourhoodName)));
         }
 
     }
