@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.Glow?>
@@ -15,6 +18,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.GridPane?>
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="732.0" minWidth="1189.0" prefHeight="732.0" prefWidth="1189.0" style="-fx-background-color: #6593ac; -fx-min-width: 1189; -fx-min-height: 732;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cmpt305project.Controllers.MainController">
    <top>
       <AnchorPane prefHeight="63.0" prefWidth="593.0" style="-fx-background-color: #0853c5; -fx-border-color: ffffff;" BorderPane.alignment="CENTER">
@@ -48,20 +55,16 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextField layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="278.0" promptText="Search Address..." />
-                                    <Button layoutX="14.0" layoutY="61.0" mnemonicParsing="false" text="Search" />
-                                    <AnchorPane layoutY="169.0" prefHeight="300.0" prefWidth="431.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="169.0">
-                                       <children>
-                                          <VBox prefHeight="301.0" prefWidth="432.0" styleClass="anchorPane" stylesheets="@../../../cssResources/AnchorPaneStyle.css">
-                                             <children>
-                                                <Label text="Address:" textFill="WHITE" />
-                                                <Label layoutX="10.0" layoutY="10.0" text="Assessment Value:" textFill="WHITE" />
-                                                <Label layoutX="10.0" layoutY="27.0" text="Garage:" textFill="WHITE" />
-                                                <Label layoutX="10.0" layoutY="44.0" text="Assessment Class:" textFill="WHITE" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </AnchorPane>
+                                    <Button fx:id="AddressSearchBttn" layoutX="14.0" layoutY="68.0" mnemonicParsing="false" onAction="#drawAddress" prefHeight="53.0" prefWidth="139.0" text="Search" />
+                                    <ComboBox fx:id="AddressTextField" layoutX="14.0" layoutY="20.0" prefHeight="25.0" prefWidth="323.0" promptText="Search Address..." />
+                                    <TableView fx:id="table" layoutX="-1.0" layoutY="183.0" prefHeight="103.0" prefWidth="434.0">
+                                      <columns>
+                                        <TableColumn fx:id="address" prefWidth="137.0" text="Address" />
+                                        <TableColumn fx:id="propertyValue" prefWidth="89.0" text="Property Value" />
+                                          <TableColumn fx:id="garage" prefWidth="46.0" text="Garage" />
+                                          <TableColumn fx:id="assessmentClass" prefWidth="161.0" text="Assessment Class" />
+                                      </columns>
+                                    </TableView>
                                  </children>
                               </AnchorPane>
                         </content>
@@ -70,14 +73,36 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="278.0">
                                  <children>
-                                    <TextField fx:id="searchNeighbourhoodTextField" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="278.0" promptText="Search Neighbourhood..." />
-                                    <Button fx:id="neighbourhoodSearchBttn" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" onAction="#drawNeighbourhood" text="Search" />
+                                    <ComboBox fx:id="searchNeighbourhoodComboBox" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="278.0" promptText="Search Neighbourhood..." />
+                                     <Button fx:id="neighbourhoodSearchBttn" layoutX="14.0" layoutY="61.0" mnemonicParsing="false" onAction="#drawNeighbourhood" text="Search" />
                                     <AnchorPane layoutX="-1.0" layoutY="141.0" prefHeight="299.0" prefWidth="434.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
                                        <children>
-                                          <VBox layoutY="-1.0" prefHeight="332.0" prefWidth="434.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
+                                          <VBox layoutY="-1.0" prefHeight="332.0" prefWidth="50.0" style="-fx-background-color: #00376f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                                AnchorPane.rightAnchor="0.0"
+                                                AnchorPane.topAnchor="-1.0"
+                                          >
                                              <children>
-                                                <Label text="Table" textFill="WHITE" />
-                                                <Label layoutX="10.0" layoutY="27.0" text="When the user searches a neighbourhood (stats)" textFill="WHITE" />
+                                                 <StackPane xmlns="http://javafx.com/javafx"
+                                                            xmlns:fx="http://javafx.com/fxml"
+                                                            stylesheets="@../../../cssResources/styles.css">
+                                                     <GridPane fx:id="gridPane" styleClass="grid-pane">
+                                                         <!-- Headers -->
+                                                         <Label text="Neighbourhood:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                                         <Label text="Property count:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                                                         <Label text="Minimum Value:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                                         <Label text="Maximum Value:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                                                         <Label text="Average Value:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                                                         <Label text="Range:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+
+                                                         <!-- Values -->
+                                                         <Label fx:id="neighbourhoodNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                                                         <Label fx:id="propertyCountLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                                         <Label fx:id="neighbourhoodMinLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                                         <Label fx:id="neighbourhoodMaxLabel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                                                         <Label fx:id="neighbourhoodAverageLabel" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                                                         <Label fx:id="neighbourhoodRangeLabel" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                                     </GridPane>
+                                                 </StackPane>
                                              </children>
                                           </VBox>
                                        </children>

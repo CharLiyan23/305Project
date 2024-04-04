@@ -162,6 +162,23 @@ public class PropertyAssessments{
         }
         return new PropertyAssessments(retAssessments);
     }
+    /**
+     * Extracts a list of unique neighborhood names from the property assessments.
+     *
+     * @return List of unique neighborhood names
+     */
+    public List<String> extractNeighborhoodNames() {
+        Set<String> neighborhoodNames = new HashSet<>();
+
+        for (PropertyAssessment assessment : assessments.values()) {
+            String neighborhoodName = assessment.getNeighbourhoodData().getNeighbourhoodname();
+            if (neighborhoodName != null && !neighborhoodName.isEmpty()) {
+                neighborhoodNames.add(neighborhoodName);
+            }
+        }
+
+        return new ArrayList<>(neighborhoodNames);
+    }
 
     public Map<Integer, PropertyAssessment> getAssessments() {
         return assessments;
