@@ -23,6 +23,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.skin.ComboBoxListViewSkin;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -151,10 +154,9 @@ public class MainController implements Initializable {
         // Initialize ComboBox
         searchNeighbourhoodComboBox.setEditable(true);
 
-// Assuming you have an instance of PropertyAssessments named propertyAssessments
         List<String> neighborhoodNamesList = assessments.extractNeighborhoodNames();
 
-// Convert List<String> to ObservableList<String>
+        // Convert List<String> to ObservableList<String>
         ObservableList<String> neighborhoodNamesObservableList = FXCollections.observableArrayList(neighborhoodNamesList);
         searchNeighbourhoodComboBox.setItems(neighborhoodNamesObservableList);
 
@@ -162,6 +164,20 @@ public class MainController implements Initializable {
         FxUtilTest.autoCompleteComboBoxPlus(searchNeighbourhoodComboBox, (typedText, item) -> {
             return item.toLowerCase().startsWith(typedText.toLowerCase());
         });
+
+        // Prevents spacebar from autofilling
+        ComboBoxListViewSkin<?> comboBoxListViewSkin = new ComboBoxListViewSkin<>(searchNeighbourhoodComboBox);
+        searchNeighbourhoodComboBox.getEditor().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                event.consume();
+            }
+        });
+        comboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                event.consume();
+            }
+        });
+        searchNeighbourhoodComboBox.setSkin(comboBoxListViewSkin);
 
         // Setting the map to the MapView
         mapView.setMap(map);
