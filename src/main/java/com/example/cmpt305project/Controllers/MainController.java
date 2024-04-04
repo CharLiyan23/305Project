@@ -151,15 +151,12 @@ public class MainController implements Initializable {
         // Initialize ComboBox
         searchNeighbourhoodComboBox.setEditable(true);
 
-        // Add values to the ComboBox
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Apples",
-                "Acorns",
-                "Nectarines",
-                "Pizza",
-                "downtown"
-        );
-        searchNeighbourhoodComboBox.setItems(items);
+// Assuming you have an instance of PropertyAssessments named propertyAssessments
+        List<String> neighborhoodNamesList = assessments.extractNeighborhoodNames();
+
+// Convert List<String> to ObservableList<String>
+        ObservableList<String> neighborhoodNamesObservableList = FXCollections.observableArrayList(neighborhoodNamesList);
+        searchNeighbourhoodComboBox.setItems(neighborhoodNamesObservableList);
 
         // Use auto-completion for combobox
         FxUtilTest.autoCompleteComboBoxPlus(searchNeighbourhoodComboBox, (typedText, item) -> {
