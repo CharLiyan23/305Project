@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+
+    //hard coded property assessment dataset
     private final String FILENAME = "Property_Assessment_Data__Current_Calendar_Year__20240111.csv";
 
     @Override
