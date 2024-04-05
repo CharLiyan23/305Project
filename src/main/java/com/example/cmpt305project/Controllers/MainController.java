@@ -1,3 +1,8 @@
+/**
+ * Name: Charuni Liyanage, Simon Gordon, Olasubomi Badiru
+ * Class: CMPT 305 AS01
+ * Instructor: Dr. Indratmo Indratmo
+ */
 package com.example.cmpt305project.Controllers;
 
 import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
@@ -21,18 +26,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import com.esri.arcgisruntime.symbology.SimpleFillSymbol;
 import com.esri.arcgisruntime.symbology.SimpleLineSymbol;
-import com.example.cmpt305project.HelperClasses.CPoint;
 import com.example.cmpt305project.HelperClasses.FxUtilTest;
-import com.example.cmpt305project.PropertyAssessmentHandler.CsvPropertyAssessmentDAO;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.Address;
-import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessment;
-import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessments;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.scene.input.KeyCode;
@@ -41,8 +38,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.w3c.dom.events.MouseEvent;
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -58,12 +53,12 @@ import com.example.cmpt305project.HelperClasses.AddressTable;
 
 import static com.example.cmpt305project.HelperClasses.ConvexHull.convexHull;
 import static eu.hansolo.tilesfx.tools.SunMoonCalculator.EARTH_RADIUS;
-import static java.lang.Math.abs;
 
 public class MainController implements Initializable {
 
     @FXML
     private StackPane stackPaneMap;
+    //-----TableView variables
     @FXML
     private TableView<AddressTable> table;
 
@@ -78,7 +73,7 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<AddressTable, String> assessmentClass;
-
+    // ---------------------------------------------
     @FXML
     private TextField searchNeighbourhoodTextField;
 
@@ -222,11 +217,6 @@ public class MainController implements Initializable {
         return allAddresses;
     }
 
-//    ObservableList<AddressTable> list = FXCollections.observableArrayList(
-//            new AddressTable("5063 Dewolf Road", 1000, "Y", "RESIDENTIAL")
-//
-//    );
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -274,7 +264,7 @@ public class MainController implements Initializable {
             return item.toLowerCase().startsWith(typedText.toLowerCase());
         });
 
-        // Prevents spacebar from autofilling
+        // BUG FIXED: Prevents spacebar from autofilling
         ComboBoxListViewSkin<?> addressComboBoxListViewSkin = new ComboBoxListViewSkin<>(AddressTextField);
         AddressTextField.getEditor().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.SPACE) {
@@ -289,7 +279,7 @@ public class MainController implements Initializable {
         AddressTextField.setSkin(addressComboBoxListViewSkin);
 
         // ------------------------------------------------------------------
-        // This is where i create the autocomplete feature
+        // This is where the autocomplete feature is implemeneted
 
         // Populate with all address
         // Populate the ObservableList with property addresses
@@ -313,11 +303,6 @@ public class MainController implements Initializable {
         AddressTextField.setEditable(true);
         AddressTextField.setItems(items);
 
-
-        // Use auto-completion for combobox
-//        FxUtilTest.autoCompleteComboBoxPlus(AddressTextField, (typedText, item) -> {
-//            return item.toLowerCase().startsWith(typedText.toLowerCase());
-//        });
         // Use auto-completion for combobox
         FxUtilTest.autoCompleteComboBoxPlus(AddressTextField, (typedText, item) -> {
             // Ignore leading spaces in typed text
@@ -359,7 +344,6 @@ public class MainController implements Initializable {
             }
         });
 
-
         //configure slider
         mapRangeSlider.valueProperty().addListener((ObservableValue<? extends Number > num, Number oldVal, Number newVal) -> {
             Float value = Float.valueOf(String.format("%.1f", newVal));
@@ -369,9 +353,6 @@ public class MainController implements Initializable {
             changefindMapDescirptionDisplay(rangedAssessments);
             //action to change size of map range here
         });
-
-
-//        stage.setOnCloseRequest(event -> mapView.dispose());
 
     }
     private void changefindMapDescirptionDisplay(PropertyAssessments soughtAssessments){
@@ -497,7 +478,7 @@ public class MainController implements Initializable {
 
     }
 
-
+    // when address is searched the address is pinned on the map
     public void pinpointProperty(Point point, GraphicsOverlay graphicsOverlay){
 
         // create a graphic to show the geodesic sector geometry
@@ -510,21 +491,15 @@ public class MainController implements Initializable {
         graphicsOverlay.getGraphics().add(graphic);
     }
 
-
-
     // This is where i draw the circle once i locate the address
     @FXML
     public void drawAddress() {
         // grab the string from the textfield area
         String addressSearch = FxUtilTest.getComboBoxValue(AddressTextField);
-        // Print the search address to check its value
-        System.out.println("Search Address:" + addressSearch);
 
-        // DO LATER: Remove all graphics from the graphics overlay
+        // Remove all graphics from the graphics overlay
         graphicsOverlayAddressPane.getGraphics().clear();
         if (true) { //check if neighbourhoood exists
-            //get points
-            //draw on graphic overlay
 
             // ---------------------------------
             // Get all property assessments
@@ -542,11 +517,9 @@ public class MainController implements Initializable {
                 // Remove extra spaces between street number and name
                 fullAddress = fullAddress.replaceAll("\\s+", " ");
 
-                // Print the search address to check its value
-                //System.out.println("fullAddress:" + fullAddress);
+                // if address search matches the address in the database
                 if (fullAddress.trim().toLowerCase().contains(addressSearch.trim().toLowerCase())) {
-                    System.out.println("Address matched: " + fullAddress);
-
+                    //set the values to the table
                     address.setCellValueFactory(new PropertyValueFactory<AddressTable,String>("address"));
                     propertyValue.setCellValueFactory(new PropertyValueFactory<AddressTable,Integer>("propertyValue"));
                     garage.setCellValueFactory(new PropertyValueFactory<AddressTable,String>("garage"));
@@ -554,11 +527,8 @@ public class MainController implements Initializable {
 
                     // Extract required data from the property assessment
                     int propertyValue = assessment.getAssessedValue();
-                    System.out.println("propertyValue: " + propertyValue);
                     String garage = assessment.getGarage();
-                    System.out.println("garage: " + garage);
                     String assessmentClass = assessment.getAssessClassInfo().getHighestClass();
-                    System.out.println("assessmentClass: " + assessmentClass);
 
                     // Create an AddressTable object with the extracted data
                     AddressTable addressTableEntry = new AddressTable(fullAddress, propertyValue, garage, assessmentClass);
@@ -572,14 +542,6 @@ public class MainController implements Initializable {
 
                 }
             }
-
-
-//            ObservableList<AddressTable> list = FXCollections.observableArrayList(
-//                    new AddressTable("5063 Dewolf Road", 1000, "Y", "RESIDENTIAL")
-//
-//            );
-//            table.setItems(list);
-            // --------------------------------
         }
     }
 

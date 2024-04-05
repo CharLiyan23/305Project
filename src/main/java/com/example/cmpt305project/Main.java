@@ -1,19 +1,17 @@
+/**
+ * Name: Charuni Liyanage, Simon Gordon, Olasubomi Badiru
+ * Class: CMPT 305 AS01
+ * Instructor: Dr. Indratmo Indratmo
+ */
 package com.example.cmpt305project;
 
-import com.esri.arcgisruntime.ArcGISRuntimeEnvironment;
-import com.esri.arcgisruntime.mapping.ArcGISMap;
-import com.esri.arcgisruntime.mapping.BasemapStyle;
-import com.esri.arcgisruntime.mapping.Viewpoint;
-import com.esri.arcgisruntime.mapping.view.MapView;
 import com.example.cmpt305project.PropertyAssessmentHandler.CsvPropertyAssessmentDAO;
 import com.example.cmpt305project.PropertyAssessmentHandler.PropertyAssessmentClasses.PropertyAssessments;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
