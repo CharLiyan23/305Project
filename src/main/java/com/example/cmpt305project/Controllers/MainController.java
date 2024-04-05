@@ -96,8 +96,7 @@ public class MainController implements Initializable {
     private ComboBox<String> AddressTextField;
     @FXML
     private ComboBox<String> searchNeighbourhoodComboBox;
-    @FXML
-    private Slider mapRangeSlider;
+
     @FXML
     private GridPane gridPane;
 
@@ -338,8 +337,7 @@ public class MainController implements Initializable {
             Float value = Float.valueOf(String.format("%.1f", newVal));
             //add conditoin here for if mouseclick != null
             drawRange(lastMouseClickPoint , value);
-            rangedAssessments = assessmentsInRange(value / Float.parseFloat("3280.84"));
-            System.out.print("\nSize = " + rangedAssessments.getAssessments().size());
+            rangedAssessments = assessmentsInRange(value / Float.parseFloat("2500.84"));
             changefindMapDescirptionDisplay(rangedAssessments);
             //action to change size of map range here
         });
@@ -380,11 +378,14 @@ public class MainController implements Initializable {
             lastMouseClickPoint = CoordinateFormatter.fromLatitudeLongitude(mapPointString, SpatialReferences.getWgs84());
             Float range = Float.valueOf(String.format("%.1f", mapRangeSlider.getValue()));
             drawRange(lastMouseClickPoint , range);
-            rangedAssessments = assessmentsInRange(range / Float.parseFloat("3280.84"));
+            rangedAssessments = assessmentsInRange(range / Float.parseFloat("2500.84"));
+            if (!rangedAssessments.getAssessments().isEmpty()){
+                changefindMapDescirptionDisplay(rangedAssessments);
+            }
+            else{
+                findMapDescirptionDisplay.setText("No properties in this range");
+            }
 
-            changefindMapDescirptionDisplay(rangedAssessments);
-
-            System.out.print("\nSize = " + rangedAssessments.getAssessments().size());
         }
     }
 
@@ -442,7 +443,7 @@ public class MainController implements Initializable {
             //get points
 
             //draw on graphic overlay
-            Graphic item = drawonMap(createPoints(convexPoints(neighbourhodName)), graphicsOverlayNeighbourhood);
+            Graphic item = drawonMap(createPoints(convexPoints(neighbourhoodName)), graphicsOverlayNeighbourhood);
         }
 
     }
@@ -473,7 +474,7 @@ public class MainController implements Initializable {
 
         // create a graphic to show the geodesic sector geometry
         // create a red simple marker symbol
-        SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 10);
+        SimpleMarkerSymbol symbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.Style.CIRCLE, Color.RED, 20);
 
         // create a new graphic with a our point and symbol
         Graphic graphic = new Graphic(new Point(  point.getX(), point.getY(), SpatialReferences.getWgs84()), symbol);
@@ -481,15 +482,6 @@ public class MainController implements Initializable {
         graphicsOverlay.getGraphics().add(graphic);
     }
 
-        graphicsOverlay.getGraphics().clear();
-        if (true){ //check if neighbourhood exists
-            //get points
-
-            //draw on graphic overlay
-            Graphic item = drawonMap(createPoints(convexPoints(neighbourhoodName)));
-        }
-
-    }
 
 
     // This is where i draw the circle once i locate the address
@@ -501,7 +493,7 @@ public class MainController implements Initializable {
         System.out.println("Search Address:" + addressSearch);
 
         // DO LATER: Remove all graphics from the graphics overlay
-        graphicsOverlay.getGraphics().clear();
+        graphicsOverlayAddressPane.getGraphics().clear();
         if (true) { //check if neighbourhoood exists
             //get points
             //draw on graphic overlay
@@ -545,10 +537,14 @@ public class MainController implements Initializable {
 
                     // Add the AddressTable entry to the filtered observable list
                     filteredAddressTableData.add(addressTableEntry);
+                    // Populate the table with the filtered address table data
+                    table.setItems(filteredAddressTableData);
+                    pinpointProperty(new Point(assessment.getLocation().getLongitude(), assessment.getLocation().getLatitude()) , graphicsOverlayAddressPane);
+                    mapView.setViewpoint(new Viewpoint( assessment.getLocation().getLatitude(), assessment.getLocation().getLongitude(), 1000));
+
                 }
             }
-            // Populate the table with the filtered address table data
-            table.setItems(filteredAddressTableData);
+
 
 //            ObservableList<AddressTable> list = FXCollections.observableArrayList(
 //                    new AddressTable("5063 Dewolf Road", 1000, "Y", "RESIDENTIAL")
