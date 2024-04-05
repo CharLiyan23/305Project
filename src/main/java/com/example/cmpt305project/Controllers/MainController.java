@@ -233,7 +233,7 @@ public class MainController implements Initializable {
         String yourApiKey = "AAPK4a2ea8e3b119411d8e6b4541a5da4a0fRve45bsPCDMyOfiwCmfpepUybznK3-nbE2cQmIyOVa_aOTQZoO3UlMzocbi4xI1g";
         ArcGISRuntimeEnvironment.setApiKey(yourApiKey);
 
-        // Initialize ComboBox
+        // Initialize ComboBox for Find by neighbourhood
         searchNeighbourhoodComboBox.setEditable(true);
         List<String> neighborhoodNamesList = assessments.extractNeighborhoodNames();
 
@@ -259,6 +259,34 @@ public class MainController implements Initializable {
             }
         });
         searchNeighbourhoodComboBox.setSkin(comboBoxListViewSkin);
+
+        // Combo box for search by address
+        // Initialize ComboBox for Find by neighbourhood
+        AddressTextField.setEditable(true);
+        List<String> addressList = (List<String>) (Object) extract(assessments, assessment -> (assessment.getAddress().toString()));
+
+        // Convert List<String> to ObservableList<String>
+        ObservableList<String> addressObservableList = FXCollections.observableArrayList(addressList);
+        AddressTextField.setItems(addressObservableList);
+
+        // Use auto-completion for combobox
+        FxUtilTest.autoCompleteComboBoxPlus(AddressTextField, (typedText, item) -> {
+            return item.toLowerCase().startsWith(typedText.toLowerCase());
+        });
+
+        // Prevents spacebar from autofilling
+        ComboBoxListViewSkin<?> addressComboBoxListViewSkin = new ComboBoxListViewSkin<>(AddressTextField);
+        AddressTextField.getEditor().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                event.consume();
+            }
+        });
+        addressComboBoxListViewSkin.getPopupContent().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                event.consume();
+            }
+        });
+        AddressTextField.setSkin(addressComboBoxListViewSkin);
 
         // ------------------------------------------------------------------
         // This is where i create the autocomplete feature
